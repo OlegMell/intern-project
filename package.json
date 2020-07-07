@@ -1,0 +1,32 @@
+{
+  "name": "intern-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon ./src/app",
+    "build": "node ./src/app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OlegMell/intern-project.git"
+  },
+  "author": "Oleg Melnik <oleg.mel123@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OlegMell/intern-project/issues"
+  },
+  "homepage": "https://github.com/OlegMell/intern-project#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mysql2": "^2.1.0",
+    "sequelize": "^6.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.4.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "nodemon": "^2.0.4"
+  }
+}
