@@ -1,11 +1,20 @@
-const Lesson = require('../models/Lesson');
+const LessonsService = require('../db/LessonsService');
 
 class LessonsController {
-  async getAll(req, res) {
-    res.send(await Lesson.findAll());
+  static async getAll(req, res) {
+    res.send(await LessonsService.read());
+  }
+
+  static async getOne(req, res) {
+    const { id } = req.body;
+    res.send(await LessonsService.readOne(id));
+  }
+
+  static async create(req, res) {
+    const { data } = req.body;
+    await LessonsService.create(data);
+    res.send('OK');
   }
 }
 
-const lessonsController = new LessonsController();
-
-module.exports = lessonsController;
+module.exports = LessonsController;

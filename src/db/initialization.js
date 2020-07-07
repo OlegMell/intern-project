@@ -1,3 +1,5 @@
+const sequelize = require('./connection');
+
 const Student = require('../models/Student');
 const Teacher = require('../models/Teacher');
 const Group = require('../models/Group');
@@ -8,4 +10,4 @@ Lesson.belongsToMany(Group, { through: 'LessonsGroups', timestamps: false });
 Group.belongsToMany(Lesson, { through: 'LessonsGroups', timestamps: false });
 Teacher.hasMany(Lesson);
 
-module.exports = async (seq) => seq.sync({ force: true });
+module.exports = sequelize.sync({ force: true });
