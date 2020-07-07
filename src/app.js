@@ -6,8 +6,7 @@ const indexRoute = require('./routes/index');
 const app = express();
 app.use('/', indexRoute);
 
-require('./db/connection')
-  .sync()
+require('./db/initialization')(require('./db/connection'))
   .then(() => {
     app.listen(process.env.PORT || 3000, () => console.log('server was started'));
   });
