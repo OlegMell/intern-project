@@ -1,22 +1,21 @@
 const { Op } = require('sequelize');
-const Teacher = require('../models/Teacher');
 const Group = require('../models/Group');
 const Lesson = require('../models/Lesson');
 
-class LessonService {
+class GroupsService {
   constructor() {
-    this.model = Lesson;
+    this.model = Group;
   }
 
   async read() {
     return this.model.findAll({
-      include: [Group, Teacher],
+      include: [Lesson],
     });
   }
 
   async readOne(id) {
     return this.model.findByPk(id, {
-      include: [Group, Teacher],
+      include: [Lesson],
     });
   }
 
@@ -31,12 +30,7 @@ class LessonService {
   }
 
   async create(data) {
-    return this.model.create({
-      topic: data.topic,
-      classroom: data.classroom,
-      begin: data.begin,
-      end: data.end,
-    });
+    return this.model.create({ ...data });
   }
 
   async update(id, data) {
@@ -48,6 +42,14 @@ class LessonService {
       },
     });
   }
+
+  async readFew(groupsId) {
+    const groupsPromises = [];
+    groupsId.forEach((group) => {
+      groupsPromises.push(this.readOne(group));
+    });
+    return Promise.all(groupsPromises);
+  }
 }
 
-module.exports = new LessonService();
+module.exports = new GroupsService();

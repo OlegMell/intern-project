@@ -1,6 +1,6 @@
 const getOneRoute = require('express').Router();
 const lessonsController = require('../../../controllers/LessonsController');
 
-getOneRoute.get('/', lessonsController.getOne);
+getOneRoute.get('/:id', lessonsController.getOne);
 
 module.exports = getOneRoute;

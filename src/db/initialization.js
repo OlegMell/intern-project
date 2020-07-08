@@ -6,8 +6,10 @@ const Group = require('../models/Group');
 const Lesson = require('../models/Lesson');
 
 Group.hasMany(Student);
-Lesson.belongsToMany(Group, { through: 'LessonsGroups', timestamps: false });
-Group.belongsToMany(Lesson, { through: 'LessonsGroups', timestamps: false });
-Teacher.hasMany(Lesson);
+Group.belongsToMany(Lesson, { through: 'GroupsLessons', timestamps: false });
+Lesson.belongsToMany(Group, { through: 'GroupsLessons', timestamps: false });
+// Teacher.hasMany(Lesson);
+// Lesson.hasOne(Teacher);
+Lesson.belongsTo(Teacher);
 
-module.exports = sequelize.sync({ force: true });
+module.exports = sequelize.sync(/*{ force: true }*/);
