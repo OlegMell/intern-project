@@ -59,6 +59,10 @@ class LessonsController {
     await LessonsService.update(id, data);
     return res.json(await LessonsService.readOne(id));
   }
+
+  // static async setRelations(...promises) {
+  //   return Promise.all(promises);
+  // }
 }
 
 module.exports = LessonsController;
