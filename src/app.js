@@ -5,16 +5,19 @@ require('dotenv').config({
 });
 
 const express = require('express');
-// const authorize = require('./middlewares/authorize');
+const dbInit = require('./db/initialization');
 const indexRoute = require('./routes/index');
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(authorize);
+
 app.use('/', indexRoute);
 
-app.listen(process.env.PORT || 3000, () => console.log('server was started'));
-// require('./db/initialization')
-//   .then(() => {
-//   });
+dbInit
+  .then(() => {
+    app.listen(process.env.PORT || 3000, () => console.log('server was started'));
+  })
+  .catch((err) => {
+    console.log(err);
+  });

@@ -12,7 +12,7 @@ class LessonsController {
     const { id } = req.params;
     const lesson = await LessonsService.readOne(id);
     if (lesson) return res.json(lesson);
-    return res.status(404).send();
+    return res.status(404).json({ message: 'lesson not found' });
   }
 
   static async create(req, res) {
@@ -21,48 +21,42 @@ class LessonsController {
 
     const teacher = await TeachersService.readOne(data.teacherId);
     const groups = await GroupsService.readFew(data.groups);
-
-    if (!teacher && !groups && !groups.includes(null)) {
-      return res.status(400).send();
+    if (!teacher && groups.includes(null)) {
+      return res.status(400).json({ message: 'groups or teacher not found' });
     }
 
     const lesson = await LessonsService.create(data);
     await lesson.setTeacher(teacher);
     await lesson.addGroups(groups);
 
-    return res.status(201).json(lesson);
+    return res.status(201).json(await LessonsService.readOne(lesson.id));
   }
 
   static async delete(req, res) {
     const { id } = req.params;
     const result = await LessonsService.delete(id);
     if (result > 0) return res.status(204).send();
-    return res.status(404).send();
+    return res.status(404).json({ message: 'lesson not found' });
   }
 
   static async update(req, res) {
     const { id } = req.params;
     const data = req.body;
     if (!data) return res.status(400).send();
-
     const teacher = await TeachersService.readOne(data.teacherId);
     const groups = await GroupsService.readFew(data.groups);
-    if (!teacher && !groups && groups.includes(null)) {
-      return res.status(404).send();
+    if (!teacher && groups.includes(null)) {
+      return res.status(404).json({ message: 'groups or teacher not found' });
     }
 
     const lesson = await LessonsService.readOne(id);
-    if (!lesson) return res.status(404).send();
+    if (!lesson) return res.status(404).json({ message: 'lesson not found' });
 
     await lesson.setTeacher(teacher);
     await lesson.setGroups(groups);
     await LessonsService.update(id, data);
     return res.json(await LessonsService.readOne(id));
   }
-
-  // static async setRelations(...promises) {
-  //   return Promise.all(promises);
-  // }
 }
 
 module.exports = LessonsController;
